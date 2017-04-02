@@ -9,6 +9,7 @@ public class Server {
 	public void test2() {
 		System.out.println("Hello, Chen!");
 		System.out.println("Does it work?");
+		System.out.println("Next");
 	}
 
 }
