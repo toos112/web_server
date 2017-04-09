@@ -8,20 +8,16 @@ public class HTTPResponse {
 	private String body;
 	private String status;
 	
-	public HTTPResponse(String status) {
-		
+	public HTTPResponse(String status, String body) {
+		this.status = status;
+		this.body = body;
 	}
 	
 	String getText() {
-		return "";
+		return status + "\n" + header;
 	}
 	
 	void addHeader(String key, String value) {
-		
+		header.put(key, value);
 	}
-	
-	void setBody(String body) {
-		
-	}
-
 }
