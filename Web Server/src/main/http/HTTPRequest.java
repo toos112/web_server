@@ -25,7 +25,7 @@ public class HTTPRequest {
 	public String getValue(String key) {
 		return header.get(key);
 	}
-	
+
 	public String getStatus() {
 		return status;
 	}
