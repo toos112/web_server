@@ -28,5 +28,8 @@ public class HTTPRequest {
 	public String getStatus() {
 		return status;
 	}
-
+	public String getPath() {
+		String[] statusArr = status.split(" ");
+		return statusArr[statusArr.length - 1];
+	}
 }
