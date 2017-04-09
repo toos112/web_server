@@ -27,6 +27,7 @@ public class HTTPServer {
 					@Override
 					public void run() {
 						HTTPProcessor.process(client);
+						client.close();
 					}
 				}).start();
 			} catch (IOException e) {
