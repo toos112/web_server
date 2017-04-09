@@ -36,6 +36,7 @@ public class HTTPServer {
 				List<String> requestList = new ArrayList<String>();
 				while (true) {
 					String line = reader.readLine();
+					if (line == null) break;
 					if (line.equals("")) break;
 					requestList.add(line);
 				}
