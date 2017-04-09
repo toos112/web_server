@@ -23,8 +23,12 @@ public class HTTPServer {
 		while (running) {
 			try {
 				HTTPClient client = new HTTPClient(server.accept());
-				HTTPProcessor.process(client);
-				client.close();
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						HTTPProcessor.process(client);
+					}
+				}).start();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

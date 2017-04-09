@@ -14,14 +14,14 @@ public class HTTPResponse {
 		this.body = body;
 	}
 
-	String[] getText() {
+	public String[] getText() {
 		String headers = "";
 		for (Map.Entry<String, String> entry : header.entrySet())
 			headers += entry.getKey() + ": " + entry.getValue() + "\n";
 		return (status + "\n" + headers + "\n" + String.join("\n", body)).split("\n");
 	}
 
-	void addHeader(String key, String value) {
+	public void addHeader(String key, String value) {
 		header.put(key, value);
 	}
 }
