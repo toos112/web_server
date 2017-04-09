@@ -11,6 +11,7 @@ public class HTTPRequest {
 		for (int i = 0; i < lines.length; i++) {
 			String line = lines[i];
 			if (i == 0) {
+				if (line.length() < 2) throw new Exception();
 				status = line;
 				continue;
 			}
