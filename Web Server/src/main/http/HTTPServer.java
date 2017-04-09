@@ -40,7 +40,7 @@ public class HTTPServer {
 						}
 					}
 				} catch (Exception e) {
-					client.writeResponse(new HTTPResponse("HTTP/1.1 400 Forbidden",
+					client.writeResponse(new HTTPResponse("HTTP/1.1 400 Bad Request",
 							FileUtil.getFile("400.html", false, true).getContents()));
 				}
 				client.close();
