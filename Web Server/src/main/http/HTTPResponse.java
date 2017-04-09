@@ -6,8 +6,9 @@ public class HTTPResponse {
 
 	private Hashtable<String, String> header = new Hashtable<String, String>();
 	private String body;
+	private String status;
 	
-	public HTTPResponse() {
+	public HTTPResponse(String status) {
 		
 	}
 	
