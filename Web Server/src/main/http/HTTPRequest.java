@@ -1,5 +1,6 @@
 package main.http;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class HTTPRequest {
@@ -21,6 +22,10 @@ public class HTTPRequest {
 			if (pair.length != 2) throw new Exception();
 			header.put(pair[0], pair[1]);
 		}
+	}
+	
+	public boolean valueContains(String key, String value) {
+		return Arrays.asList(header.get(key).split(", ")).contains(value);
 	}
 
 	public String getValue(String key) {

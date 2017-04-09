@@ -81,5 +81,9 @@ public class HTTPClient {
 		writeLine("");
 		flush();
 	}
+	
+	public Socket getSocket() {
+		return socket;
+	}
 
 }

@@ -25,8 +25,8 @@ public class HTTPProcessor {
 				if (!(path.startsWith("/") || path.startsWith("\\")) || path.contains("..")) {
 					err(client, "403 Forbidden", "403.html");
 				} else {
-					if (request.getValue("Connection").equals("Upgrade")) {
-						if (request.getValue("Upgrade").equals("websocket")) {
+					if (request.valueContains("Connection", "Upgrade")) {
+						if (request.valueContains("Upgrade", "websocket")) {
 							WebSocket ws = new WebSocket(client, request);
 						}
 					} else {

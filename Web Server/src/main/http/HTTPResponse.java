@@ -17,8 +17,8 @@ public class HTTPResponse {
 	public String[] getText() {
 		String headers = "";
 		for (Map.Entry<String, String> entry : header.entrySet())
-			headers += entry.getKey() + ": " + entry.getValue() + "\n";
-		return (status + "\n" + headers + "\n" + String.join("\n", body)).split("\n");
+			headers += entry.getKey() + ": " + entry.getValue() + "\r\n";
+		return (status + "\r\n" + headers + "\r\n" + String.join("\r\n", body)).split("\r\n");
 	}
 
 	public void addHeader(String key, String value) {
