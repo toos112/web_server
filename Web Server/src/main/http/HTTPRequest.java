@@ -7,7 +7,7 @@ public class HTTPRequest {
 	private HashMap<String, String> header = new HashMap<String, String>();
 	private String status;
 
-	public HTTPRequest(String[] lines) {
+	public HTTPRequest(String[] lines) throws Exception {
 		for (int i = 0; i < lines.length; i++) {
 			String line = lines[i];
 			if (i == 0) {
@@ -17,6 +17,7 @@ public class HTTPRequest {
 			if (line.equals(""))
 				continue;
 			String[] pair = line.split(": ");
+			if (pair.length != 2) throw new Exception();
 			header.put(pair[0], pair[1]);
 		}
 	}

@@ -24,11 +24,8 @@ public class HTTPServer {
 		while (running) {
 			try {
 				HTTPClient client = new HTTPClient(server.accept());
-				HTTPRequest request = client.readRequest();
-				if (request == null) {
-					client.writeResponse(new HTTPResponse("HTTP/1.1 400 Forbidden",
-							FileUtil.getFile("400.html", false, true).getContents()));
-				} else {
+				try {
+					HTTPRequest request = client.readRequest();
 					String path = request.getPath();
 					if (!(path.startsWith("/") || path.startsWith("\\")) || path.contains("..")) {
 						client.writeResponse(new HTTPResponse("HTTP/1.1 403 Forbidden",
@@ -42,6 +39,9 @@ public class HTTPServer {
 									FileUtil.getFile("404.html", false, true).getContents()));
 						}
 					}
+				} catch (Exception e) {
+					client.writeResponse(new HTTPResponse("HTTP/1.1 400 Forbidden",
+							FileUtil.getFile("400.html", false, true).getContents()));
 				}
 				client.close();
 			} catch (IOException e) {

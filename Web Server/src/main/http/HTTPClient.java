@@ -14,7 +14,6 @@ public class HTTPClient {
 	private BufferedReader reader;
 	private BufferedWriter writer;
 	private Socket socket;
-	private boolean badRequest = false;
 
 	public HTTPClient(Socket socket) throws IOException {
 		this.socket = socket;
@@ -43,10 +42,7 @@ public class HTTPClient {
 		List<String> requestList = new ArrayList<String>();
 		while (true) {
 			String line = readLine();
-			if (line == null) {
-				badRequest = true;
-				break;
-			}
+			if (line == null) return null;
 			if (line.equals("")) break;
 			requestList.add(line);
 		}
@@ -76,8 +72,7 @@ public class HTTPClient {
 		}
 	}
 	
-	public HTTPRequest readRequest() {
-		if (badRequest) return null;
+	public HTTPRequest readRequest() throws Exception {
 		return new HTTPRequest(readLines());
 	}
 	
