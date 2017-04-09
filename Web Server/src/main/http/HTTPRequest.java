@@ -30,6 +30,6 @@ public class HTTPRequest {
 	}
 	public String getPath() {
 		String[] statusArr = status.split(" ");
-		return statusArr[statusArr.length - 1];
+		return statusArr[statusArr.length - 2];
 	}
 }

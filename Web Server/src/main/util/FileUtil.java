@@ -10,7 +10,9 @@ public class FileUtil {
 		
 	}
 
-	public static final main.io.File getFile(String path, boolean checkIndex) {
+	public static final main.io.File getFile(String path, boolean checkIndex, boolean error) {
+		if (error)
+			path = "error/" + path;
 		if (path.startsWith("/") || path.startsWith("\\"))
 			path = "root" + path;
 
