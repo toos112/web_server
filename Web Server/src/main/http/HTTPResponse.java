@@ -6,19 +6,19 @@ import java.util.Map;
 public class HTTPResponse {
 
 	private HashMap<String, String> header = new HashMap<String, String>();
-	private String body;
+	private String[] body;
 	private String status;
 
-	public HTTPResponse(String status, String body) {
+	public HTTPResponse(String status, String[] body) {
 		this.status = status;
 		this.body = body;
 	}
 
-	String getText() {
+	String[] getText() {
 		String headers = "";
 		for (Map.Entry<String, String> entry : header.entrySet())
 			headers += entry.getKey() + ": " + entry.getValue() + "\n";
-		return status + "\n" + headers + "\n" + body;
+		return (status + "\n" + headers + "\n" + String.join("\n", body)).split("\n");
 	}
 
 	void addHeader(String key, String value) {

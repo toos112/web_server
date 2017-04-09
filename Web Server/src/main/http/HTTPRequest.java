@@ -7,8 +7,7 @@ public class HTTPRequest {
 	private HashMap<String, String> header = new HashMap<String, String>();
 	private String status;
 
-	public HTTPRequest(String str) {
-		String[] lines = str.split("\r\n");
+	public HTTPRequest(String[] lines) {
 		for (int i = 0; i < lines.length; i++) {
 			String line = lines[i];
 			if (i == 0) {
