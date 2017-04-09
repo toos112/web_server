@@ -78,6 +78,7 @@ public class HTTPClient {
 	
 	public void writeResponse(HTTPResponse response) {
 		writeLines(response.getText());
+		writeLine("");
 		flush();
 	}
 

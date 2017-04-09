@@ -32,7 +32,7 @@ public class HTTPProcessor {
 					} else {
 						try {
 							File file = FileUtil.getFile(path, true, false);
-							client.writeResponse(new HTTPResponse("HTTP/1.1 300 OK", file.getContents()));
+							client.writeResponse(new HTTPResponse("HTTP/1.1 200 OK", file.getContents()));
 						} catch (NullPointerException e) {
 							err(client, "404 Not Found", "404.html");
 						}
