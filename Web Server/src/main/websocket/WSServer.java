@@ -3,7 +3,7 @@ package main.websocket;
 import main.util.js.JSWebSocket;
 import main.util.js.JSWebSocketMirror;
 import main.util.js.ServerScriptManager;
-import main.util.js.event.JSWebSocketEvent;
+import main.util.js.event.JSWebSocketCloseEvent;
 import main.util.js.event.JSWebSocketMessageEvent;
 
 public class WSServer {
@@ -12,6 +12,7 @@ public class WSServer {
 	private boolean running = false;
 	private String protocol;
 	private JSWebSocket jsWebSocket;
+	private int loss = 0;
 
 	public WSServer(WSClient client, String protocol) {
 		this.client = client;
@@ -35,14 +36,15 @@ public class WSServer {
 
 	private void processControl(WSRequest request) {
 		if (request.getOpcode() == 0x8) {
-			JSWebSocketMirror.callEvent(jsWebSocket, "close", new JSWebSocketEvent(jsWebSocket));
-			ServerScriptManager.instance.triggerEvent("ws.close", new JSWebSocketEvent(jsWebSocket));
+			JSWebSocketMirror.callEvent(jsWebSocket, "close", new JSWebSocketCloseEvent(jsWebSocket, false));
+			ServerScriptManager.instance.triggerEvent("ws.close", new JSWebSocketCloseEvent(jsWebSocket, false));
 			running = false;
 		} else if (request.getOpcode() == 0x9) {
 			WSResponse response = new WSResponse(0xA);
 			response.setPayload(request.getPayloadBytes());
 			client.writeResponse(response);
-		}
+		} else if (request.getOpcode() == 0xA)
+			loss = 0;
 
 	}
 
@@ -101,6 +103,26 @@ public class WSServer {
 
 	public void start() {
 		running = true;
+		/*new Thread(new Runnable() {
+			@Override
+			public void run() {
+				while (running) {
+					try {
+						Thread.sleep(5000);
+						if (loss++ >= 6) {
+							running = false;
+							JSWebSocketMirror.callEvent(jsWebSocket, "close", new JSWebSocketCloseEvent(jsWebSocket, true));
+							ServerScriptManager.instance.triggerEvent("ws.close", new JSWebSocketCloseEvent(jsWebSocket, true));
+						}
+						WSResponse response = new WSResponse(0x9);
+						response.setPayload("ping".getBytes());
+						client.writeResponse(response);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}).start();*/
 		while (running) {
 			WSRequest request = client.readRequest();
 			if (request != null)
