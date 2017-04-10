@@ -24,4 +24,8 @@ public class HTTPResponse {
 	public void addHeader(String key, String value) {
 		header.put(key, value);
 	}
+	
+	public void addHeader(String key, String[] values) {
+		header.put(key, String.join(", ", values));
+	}
 }

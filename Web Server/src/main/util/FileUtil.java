@@ -1,6 +1,7 @@
 package main.util;
 
 import java.io.File;
+import java.io.IOException;
 
 public class FileUtil {
 	
@@ -10,23 +11,32 @@ public class FileUtil {
 		
 	}
 
-	public static final main.io.File getFile(String path, boolean checkIndex, boolean error) {
-		if (error)
-			path = "error/" + path;
+	public static final main.io.File getFile(String path, boolean checkIndex) {
+		path = "E:/Gidion web server/web server/html-code" + (path.startsWith("/") ? "/root" : "/" + path);
 		if (path.startsWith("/") || path.startsWith("\\"))
 			path = "root" + path;
 
-		if (new File(path).isDirectory() && checkIndex) {
+		File file = new File(path);
+		if (file.isDirectory() && checkIndex) {
 			for (String fileName : indexFiles) {
 				String ipath = path + "/" + fileName;
-				if (new File(ipath).exists() && new File(ipath).isFile()) {
+				File ifile = new File(ipath);
+				if (ifile.exists() && ifile.isFile()) {
 					return new main.io.File(ipath);
 				}
 			}
-		} else if (new File(path).isFile())
+			return null;
+		} else if (file.isFile()) {
 			return new main.io.File(path);
-
-		return null;
+		} else {
+			try {
+				file.createNewFile();
+				return new main.io.File(path);
+			} catch (IOException e) {
+				e.printStackTrace();
+				return null;
+			}
+		}
 	}
 
 }

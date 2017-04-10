@@ -1,10 +1,13 @@
 package main.io;
 
-import java.util.List;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
+
+import main.util.js.JSCode;
 
 public class File {
 
@@ -14,7 +17,7 @@ public class File {
 		this.filePath = filePath;
 	}
 
-	public String[] getContents() {
+	public String[] read() {
 		try {
 	        FileReader fileReader = new FileReader(filePath);
 	        BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -27,6 +30,23 @@ public class File {
 		} catch(IOException e) {
 			e.printStackTrace();
 			return null;
+		}
+	}
+	
+	public String[] readAndEval(String[][] params) {
+		String[] text = read();
+		return JSCode.evalServerCode(text, params);
+	}
+	
+	public void write(String[] text) {
+		try {
+			PrintWriter pw = new PrintWriter(filePath);
+			for (String str : text)
+				pw.write(str);
+			pw.close();
+		} catch (IOException | NullPointerException e) {
+			e.printStackTrace();
+			return;
 		}
 	}
 

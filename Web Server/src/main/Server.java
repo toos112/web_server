@@ -3,6 +3,7 @@ package main;
 import java.io.IOException;
 
 import main.http.HTTPServer;
+import main.util.js.ServerScriptManager;
 
 public class Server {
 
@@ -11,6 +12,7 @@ public class Server {
 
 		try {
 			HTTPServer server = new HTTPServer(port);
+			new Thread(ServerScriptManager.instance).run();
 			System.out.println("Created server on port: " + port);
 			server.start();
 		} catch (IOException e) {

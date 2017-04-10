@@ -72,7 +72,7 @@ public class HTTPClient {
 		}
 	}
 	
-	public HTTPRequest readRequest() throws Exception {
+	public HTTPRequest readRequest() throws HTTPParseException {
 		return new HTTPRequest(readLines());
 	}
 	
