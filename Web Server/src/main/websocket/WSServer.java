@@ -3,46 +3,49 @@ package main.websocket;
 import main.util.js.JSWebSocket;
 import main.util.js.JSWebSocketMirror;
 import main.util.js.ServerScriptManager;
+import main.util.js.event.JSWebSocketEvent;
 import main.util.js.event.JSWebSocketMessageEvent;
 
 public class WSServer {
-	
+
 	private WSClient client;
 	private boolean running = false;
 	private String protocol;
 	private JSWebSocket jsWebSocket;
-	
+
 	public WSServer(WSClient client, String protocol) {
 		this.client = client;
 		this.protocol = protocol;
 	}
-	
+
 	public void setJSWebSocket(JSWebSocket jsWebSocket) {
 		this.jsWebSocket = jsWebSocket;
 	}
-	
+
 	private void processText(String text) {
 		if (jsWebSocket != null) {
 			JSWebSocketMirror.callEvent(jsWebSocket, "receive", new JSWebSocketMessageEvent(jsWebSocket, text));
 			ServerScriptManager.instance.triggerEvent("ws.receive", new JSWebSocketMessageEvent(jsWebSocket, text));
 		}
 	}
-	
+
 	private void processBytes(byte[] bytes) {
 		processText(new String(bytes));
 	}
-	
+
 	private void processControl(WSRequest request) {
-		if (request.getOpcode() == 0x8)
+		if (request.getOpcode() == 0x8) {
+			JSWebSocketMirror.callEvent(jsWebSocket, "close", new JSWebSocketEvent(jsWebSocket));
+			ServerScriptManager.instance.triggerEvent("ws.close", new JSWebSocketEvent(jsWebSocket));
 			running = false;
-		else if (request.getOpcode() == 0x9) {
+		} else if (request.getOpcode() == 0x9) {
 			WSResponse response = new WSResponse(0xA);
 			response.setPayload(request.getPayloadBytes());
 			client.writeResponse(response);
 		}
-			
+
 	}
-	
+
 	private void received(WSRequest request) {
 		if (!request.isFinished()) {
 			if (request.getOpcode() == 1) {
@@ -52,8 +55,10 @@ public class WSServer {
 					if (request2 != null) {
 						if (request2.getOpcode() == 0) {
 							text += request2.getPayloadString();
-							if (request2.isFinished()) break;
-						} else received(request2);
+							if (request2.isFinished())
+								break;
+						} else
+							received(request2);
 					}
 				}
 				processText(text);
@@ -70,8 +75,10 @@ public class WSServer {
 							for (int i = 0; i < addedBytes.length; i++)
 								newBytes[bytes.length + i] = addedBytes[i];
 							bytes = newBytes;
-							if (request2.isFinished()) break;
-						} else received(request2);
+							if (request2.isFinished())
+								break;
+						} else
+							received(request2);
 					}
 				}
 				processBytes(bytes);
@@ -81,16 +88,17 @@ public class WSServer {
 				processText(request.getPayloadString());
 			else if (request.getOpcode() == 2)
 				processBytes(request.getPayloadBytes());
-			else processControl(request);
+			else
+				processControl(request);
 		}
 	}
-	
+
 	public void send(String text) {
 		WSResponse response = new WSResponse(0x1);
 		response.setPayload(text.getBytes());
 		client.writeResponse(response);
 	}
-	
+
 	public void start() {
 		running = true;
 		while (running) {
@@ -99,11 +107,11 @@ public class WSServer {
 				received(request);
 		}
 	}
-	
+
 	public WSClient getClient() {
 		return client;
 	}
-	
+
 	public String getProtocol() {
 		return protocol;
 	}
