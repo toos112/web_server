@@ -3,6 +3,7 @@ package main.websocket;
 import main.util.js.JSWebSocket;
 import main.util.js.JSWebSocketMirror;
 import main.util.js.ServerScriptManager;
+import main.util.js.event.JSWebSocketMessageEvent;
 
 public class WSServer {
 	
@@ -22,8 +23,8 @@ public class WSServer {
 	
 	private void processText(String text) {
 		if (jsWebSocket != null) {
-			JSWebSocketMirror.callEvent(jsWebSocket, "receive", new Object[] { text });
-			ServerScriptManager.instance.triggerEvent("ws.receive", new Object[] { jsWebSocket, text });
+			JSWebSocketMirror.callEvent(jsWebSocket, "receive", new JSWebSocketMessageEvent(jsWebSocket, text));
+			ServerScriptManager.instance.triggerEvent("ws.receive", new JSWebSocketMessageEvent(jsWebSocket, text));
 		}
 	}
 	

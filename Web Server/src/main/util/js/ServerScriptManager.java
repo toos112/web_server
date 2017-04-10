@@ -9,6 +9,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
 import main.util.FileUtil;
+import main.util.js.event.JSEvent;
 
 public class ServerScriptManager implements Runnable {
 
@@ -40,7 +41,7 @@ public class ServerScriptManager implements Runnable {
 		eventMap.get(event).add(func);
 	}
 
-	public void triggerEvent(String event, Object[] params) {
+	public void triggerEvent(String event, JSEvent params) {
 		if (!eventMap.containsKey(event))
 			return;
 		List<Function<Object, Object>> handlers = eventMap.get(event);

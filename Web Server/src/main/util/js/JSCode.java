@@ -81,7 +81,7 @@ public class JSCode {
 		}
 	}
 
-	public static final void call(Function<Object, Object> func, Object[] params) {
-		func.apply(params);
+	public static final void call(Function<Object, Object> func, Object param) {
+		func.apply(param);
 	}
 }

@@ -9,6 +9,7 @@ import main.http.HTTPResponse;
 import main.io.File;
 import main.util.js.JSWebSocket;
 import main.util.js.ServerScriptManager;
+import main.util.js.event.JSWebSocketEvent;
 import main.websocket.WSClient;
 import main.websocket.WSServer;
 import main.websocket.WebSocket;
@@ -41,7 +42,7 @@ public class HTTPProcessor {
 							WSServer wsServer = new WSServer(wsClient, protocol);
 							JSWebSocket jsWebSocket = new JSWebSocket(wsServer);
 							wsServer.setJSWebSocket(jsWebSocket);
-							ServerScriptManager.instance.triggerEvent("ws.new", new Object[] { jsWebSocket });
+							ServerScriptManager.instance.triggerEvent("ws.new", new JSWebSocketEvent(jsWebSocket));
 							wsServer.start();
 						}
 					} else {
