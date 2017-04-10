@@ -12,6 +12,9 @@ public class JSWebSocketMirror {
 		if (event.equals("receive")) {
 			if (socket.onReceive != null)
 				JSCode.call(socket.onReceive, param);
+		} else if (event.equals("close")) {
+			if (socket.onClose != null)
+				JSCode.call(socket.onClose, param);
 		}
 	}
 

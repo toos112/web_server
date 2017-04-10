@@ -8,6 +8,7 @@ public class JSWebSocket {
 
 	private WSServer server;
 	Function<Object, Object> onReceive = null;
+	Function<Object, Object> onClose = null;
 
 	public JSWebSocket(WSServer server) {
 		this.server = server;
@@ -24,6 +25,8 @@ public class JSWebSocket {
 	public final void event(String event, Function<Object, Object> handler) {
 		if (event.equals("receive"))
 			onReceive = handler;
+		else if (event.equals("close"))
+			onClose = handler;
 	}
 
 }
