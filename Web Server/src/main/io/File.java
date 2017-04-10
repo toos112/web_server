@@ -42,7 +42,7 @@ public class File {
 		try {
 			PrintWriter pw = new PrintWriter(filePath);
 			for (String str : text)
-				pw.write(str);
+				pw.write(str + "\n");
 			pw.close();
 		} catch (IOException | NullPointerException e) {
 			e.printStackTrace();

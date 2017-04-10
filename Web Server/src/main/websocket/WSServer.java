@@ -103,30 +103,37 @@ public class WSServer {
 
 	public void start() {
 		running = true;
-		/*new Thread(new Runnable() {
+		new Thread(new Runnable() {
 			@Override
 			public void run() {
 				while (running) {
 					try {
 						Thread.sleep(5000);
-						if (loss++ >= 6) {
-							running = false;
-							JSWebSocketMirror.callEvent(jsWebSocket, "close", new JSWebSocketCloseEvent(jsWebSocket, true));
-							ServerScriptManager.instance.triggerEvent("ws.close", new JSWebSocketCloseEvent(jsWebSocket, true));
-						}
-						WSResponse response = new WSResponse(0x9);
-						response.setPayload("ping".getBytes());
-						client.writeResponse(response);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
+					if (loss++ >= 6) {
+						running = false;
+						JSWebSocketMirror.callEvent(jsWebSocket, "close", new JSWebSocketCloseEvent(jsWebSocket, true));
+						ServerScriptManager.instance.triggerEvent("ws.close", new JSWebSocketCloseEvent(jsWebSocket, true));
+					}
+					if (!client.getSocket().isClosed()) {
+						WSResponse response = new WSResponse(0x9);
+						response.setPayload("ping".getBytes());
+						client.writeResponse(response);
+					}
 				}
 			}
-		}).start();*/
+		}).start();
 		while (running) {
 			WSRequest request = client.readRequest();
 			if (request != null)
 				received(request);
+			if (client.getSocket().isClosed()) {
+				running = false;
+				JSWebSocketMirror.callEvent(jsWebSocket, "close", new JSWebSocketCloseEvent(jsWebSocket, true));
+				ServerScriptManager.instance.triggerEvent("ws.close", new JSWebSocketCloseEvent(jsWebSocket, true));
+			}
 		}
 	}
 

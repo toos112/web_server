@@ -43,7 +43,6 @@ public class JSUtil {
 	public final void writef(String path, String text) {
 		String[] stra = text.split("\n");
 		FileUtil.getFile(path, false).write(stra);
-		;
 	}
 
 	public final boolean svr() {

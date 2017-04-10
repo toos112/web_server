@@ -12,7 +12,6 @@ public class FileUtil {
 	}
 
 	public static final main.io.File getFile(String path, boolean checkIndex) {
-		path = "E:/Gidion web server/web server/html-code" + (path.startsWith("/") ? "/root" : "/" + path);
 		if (path.startsWith("/") || path.startsWith("\\"))
 			path = "root" + path;
 
