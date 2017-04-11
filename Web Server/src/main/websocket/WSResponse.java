@@ -18,9 +18,17 @@ public class WSResponse {
 			payload = new byte[0];
 		int[] result = new int[2 + payload.length];
 		result[0] = opcode + 128;
-		result[1] = payload.length;
+		int index = 2;
+		if (payload.length < 126)
+			result[1] = payload.length;
+		else {
+			result[1] = 126;
+			index = 4;
+			result[2] = payload.length & 0xFF;
+			result[3] = (payload.length & 0xFF00) >> 8;
+		}
 		for (int i = 0; i < payload.length; i++)
-			result[2 + i] = payload[i];
+			result[index + i] = payload[i];
 		return result;
 	}
 
