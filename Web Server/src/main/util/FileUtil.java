@@ -11,9 +11,13 @@ public class FileUtil {
 		
 	}
 
-	public static final main.io.File getFile(String path, boolean checkIndex, boolean create) {
-		if (path.startsWith("/") || path.startsWith("\\"))
-			path = "root" + path;
+	public static final main.io.File getFile(String path, boolean root, boolean checkIndex, boolean create) {
+		if (root) {
+			if (path.startsWith("/"))
+				path = "root" + path;
+			else
+				path = "root/" + path;
+		}
 
 		File file = new File(path);
 		if (file.isDirectory() && checkIndex) {

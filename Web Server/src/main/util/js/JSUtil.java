@@ -27,7 +27,7 @@ public class JSUtil {
 	public final void I(String path) {
 		try {
 			if (!included.contains(path)) {
-				engine.eval(String.join("\n", FileUtil.getFile(path, false, false).read()));
+				engine.eval(String.join("\n", FileUtil.getFile(path, false, false, false).read()));
 				included.add(path);
 			}
 		} catch (ScriptException e) {
@@ -36,13 +36,13 @@ public class JSUtil {
 	}
 
 	public final String readf(String path) {
-		String[] file = FileUtil.getFile(path, false, false).read();
+		String[] file = FileUtil.getFile(path, false, false, false).read();
 		return String.join("\n", file);
 	}
 
 	public final void writef(String path, String text) {
 		String[] stra = text.split("\n");
-		FileUtil.getFile(path, false, true).write(stra);
+		FileUtil.getFile(path, false, false, true).write(stra);
 	}
 
 	public final boolean svr() {

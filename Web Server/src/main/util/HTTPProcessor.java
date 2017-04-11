@@ -22,7 +22,7 @@ public class HTTPProcessor {
 
 	public static void err(HTTPClient client, String message, String filePath, String[][] params) {
 		client.writeResponse(
-				new HTTPResponse("HTTP/1.1 " + message, FileUtil.getFile(filePath, false, false).readAndEval(params)));
+				new HTTPResponse("HTTP/1.1 " + message, FileUtil.getFile(filePath, false, false, false).readAndEval(params)));
 	}
 
 	public static void process(HTTPClient client) {
@@ -47,7 +47,7 @@ public class HTTPProcessor {
 						}
 					} else {
 						try {
-							File file = FileUtil.getFile(path, true, false);
+							File file = FileUtil.getFile(path, true, true, false);
 							client.writeResponse(new HTTPResponse("HTTP/1.1 200 OK", file.readAndEval(params)));
 						} catch (NullPointerException e) {
 							err(client, "404 Not Found", "error/404.html", params);

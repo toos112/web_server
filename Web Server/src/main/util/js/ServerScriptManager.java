@@ -32,7 +32,7 @@ public class ServerScriptManager implements Runnable {
 	}
 
 	public void eval(String file) {
-		JSCode.eval(engine, FileUtil.getFile(file, false, false));
+		JSCode.eval(engine, FileUtil.getFile(file, false, false, false));
 	}
 
 	public void registerEvent(String event, Function<Object, Object> func) {
