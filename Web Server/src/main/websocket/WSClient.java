@@ -17,13 +17,12 @@ public class WSClient {
 		os = socket.getOutputStream();
 	}
 	
-	public WSRequest readRequest() {
+	public WSRequest readRequest() throws WSParseException, IOException {
 		try {
 			return new WSRequest(is);
-		} catch(IOException e) {
-			e.printStackTrace();
-			return null;
 		} catch (WSParseException e) {
+			if (e.close())
+				throw e;
 			e.printStackTrace();
 			return null;
 		}

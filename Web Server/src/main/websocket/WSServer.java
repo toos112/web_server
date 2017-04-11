@@ -1,5 +1,7 @@
 package main.websocket;
 
+import java.io.IOException;
+
 import main.util.js.JSWebSocket;
 import main.util.js.JSWebSocketMirror;
 import main.util.js.ServerScriptManager;
@@ -48,7 +50,7 @@ public class WSServer {
 
 	}
 
-	private void received(WSRequest request) {
+	private void received(WSRequest request) throws WSParseException, IOException {
 		if (!request.isFinished()) {
 			if (request.getOpcode() == 1) {
 				String text = request.getPayloadString();
@@ -115,7 +117,8 @@ public class WSServer {
 					if (loss++ >= 6) {
 						running = false;
 						JSWebSocketMirror.callEvent(jsWebSocket, "close", new JSWebSocketCloseEvent(jsWebSocket, true));
-						ServerScriptManager.instance.triggerEvent("ws.close", new JSWebSocketCloseEvent(jsWebSocket, true));
+						ServerScriptManager.instance.triggerEvent("ws.close",
+								new JSWebSocketCloseEvent(jsWebSocket, true));
 					}
 					if (!client.getSocket().isClosed()) {
 						WSResponse response = new WSResponse(0x9);
@@ -126,10 +129,13 @@ public class WSServer {
 			}
 		}).start();
 		while (running) {
-			WSRequest request = client.readRequest();
-			if (request != null)
-				received(request);
-			if (client.getSocket().isClosed()) {
+			WSRequest request;
+			try {
+				request = client.readRequest();
+				if (request != null)
+					received(request);
+			} catch (WSParseException | IOException e) {
+				e.printStackTrace();
 				running = false;
 				JSWebSocketMirror.callEvent(jsWebSocket, "close", new JSWebSocketCloseEvent(jsWebSocket, true));
 				ServerScriptManager.instance.triggerEvent("ws.close", new JSWebSocketCloseEvent(jsWebSocket, true));
