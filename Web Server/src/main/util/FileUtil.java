@@ -11,7 +11,7 @@ public class FileUtil {
 		
 	}
 
-	public static final main.io.File getFile(String path, boolean checkIndex) {
+	public static final main.io.File getFile(String path, boolean checkIndex, boolean create) {
 		if (path.startsWith("/") || path.startsWith("\\"))
 			path = "root" + path;
 
@@ -27,7 +27,7 @@ public class FileUtil {
 			return null;
 		} else if (file.isFile()) {
 			return new main.io.File(path);
-		} else {
+		} else if (create) {
 			try {
 				file.createNewFile();
 				return new main.io.File(path);
@@ -35,7 +35,7 @@ public class FileUtil {
 				e.printStackTrace();
 				return null;
 			}
-		}
+		} else return null;
 	}
 
 }
