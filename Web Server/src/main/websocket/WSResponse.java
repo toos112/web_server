@@ -1,5 +1,8 @@
 package main.websocket;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+
 public class WSResponse {
 
 	private int opcode;
@@ -27,8 +30,9 @@ public class WSResponse {
 			result[0] = opcode + 128;
 			result[1] = 126;
 			index = 4;
-			result[2] = payload.length & 0xFF;
-			result[3] = (payload.length & 0xFF00) >> 8;
+			byte[] lengthBytes = ByteBuffer.allocate(4).order(ByteOrder.BIG_ENDIAN).putInt(payload.length).array();
+			result[2] = lengthBytes[2];
+			result[3] = lengthBytes[3];
 		}
 		for (int i = 0; i < payload.length; i++)
 			result[index + i] = payload[i];
