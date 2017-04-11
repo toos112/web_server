@@ -21,20 +21,21 @@ public class WSResponse {
 			payload = new byte[0];
 		int[] result;
 		int index = 2;
-		if (payload.length < 126) {
-			result = new int[2 + payload.length];
+		int length = payload.length > 8192 ? 8192 : payload.length;
+		if (length < 126) {
+			result = new int[2 + length];
 			result[0] = opcode + 128;
-			result[1] = payload.length;
+			result[1] = length;
 		} else {
-			result = new int[4 + payload.length];
+			result = new int[4 + length];
 			result[0] = opcode + 128;
 			result[1] = 126;
 			index = 4;
-			byte[] lengthBytes = ByteBuffer.allocate(4).order(ByteOrder.BIG_ENDIAN).putInt(payload.length).array();
+			byte[] lengthBytes = ByteBuffer.allocate(4).order(ByteOrder.BIG_ENDIAN).putInt(length).array();
 			result[2] = lengthBytes[2];
 			result[3] = lengthBytes[3];
 		}
-		for (int i = 0; i < payload.length; i++)
+		for (int i = 0; i < length; i++)
 			result[index + i] = payload[i];
 		return result;
 	}
