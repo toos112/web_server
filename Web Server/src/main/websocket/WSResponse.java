@@ -16,12 +16,15 @@ public class WSResponse {
 	public int[] getBytes() {
 		if (payload == null)
 			payload = new byte[0];
-		int[] result = new int[2 + payload.length];
-		result[0] = opcode + 128;
+		int[] result;
 		int index = 2;
-		if (payload.length < 126)
+		if (payload.length < 126) {
+			result = new int[2 + payload.length];
+			result[0] = opcode + 128;
 			result[1] = payload.length;
-		else {
+		} else {
+			result = new int[4 + payload.length];
+			result[0] = opcode + 128;
 			result[1] = 126;
 			index = 4;
 			result[2] = payload.length & 0xFF;
