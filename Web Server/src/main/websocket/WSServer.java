@@ -134,6 +134,11 @@ public class WSServer {
 				request = client.readRequest();
 				if (request != null)
 					received(request);
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			} catch (WSParseException | IOException e) {
 				e.printStackTrace();
 				running = false;
