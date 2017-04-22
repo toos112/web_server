@@ -28,7 +28,7 @@ public class JSCode {
 		}
 		qsJSON = qsJSON.substring(0, qsJSON.length() - 1) + "}";
 
-		engine.put("qs", qsJSON);
+		engine.put("_qs", qsJSON);
 		engine.put("_", new JSUtil(engine));
 
 		String result = String.join("%n%", stra);
