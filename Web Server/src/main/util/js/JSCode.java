@@ -19,12 +19,10 @@ public class JSCode {
 		ScriptEngineManager manager = new ScriptEngineManager();
 		ScriptEngine engine = manager.getEngineByName("JavaScript");
 
-		String qsJSON = params.length > 0 ? "{" : "{,";
+		String qsJSON = "{";
 		for (String[] pa : params) {
 			if (pa.length == 2)
 				qsJSON += "\"" + pa[0] + "\":\"" + pa[1] + "\",";
-			else
-				return stra;
 		}
 		qsJSON = qsJSON.substring(0, qsJSON.length() - 1) + "}";
 
