@@ -17,6 +17,10 @@ public class JSWebSocket {
 	public final String getProtocol() {
 		return server.getProtocol();
 	}
+	
+	public final String getAddress() {
+		return server.getClient().getSocket().getInetAddress().toString();
+	}
 
 	public final void out(String text) {
 		server.send(text);
