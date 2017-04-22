@@ -31,7 +31,7 @@ public class HTTPProcessor {
 			String[] pathArr = request.getPath().split("\\?");
 			String path = pathArr[0];
 			String[][] params = StringUtil.toParams(pathArr.length == 2 ? pathArr[1] : "");
-			if (request.getMethod().equals("GET")) {
+			if (request.getMethod().equals("GET") || request.getMethod().equals("POST")) {
 				if (!(path.startsWith("/") || path.startsWith("\\")) || path.contains("..")) {
 					err(client, "403 Forbidden", "error/403.html", params);
 				} else {
