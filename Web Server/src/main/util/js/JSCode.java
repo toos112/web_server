@@ -24,7 +24,7 @@ public class JSCode {
 			if (pa.length == 2)
 				qsJSON += "\"" + pa[0] + "\":\"" + pa[1] + "\",";
 		}
-		qsJSON = qsJSON.substring(0, qsJSON.length() - 1) + "}";
+		qsJSON = qsJSON.substring(0, qsJSON.length() - 2) + "}";
 
 		engine.put("_qs", qsJSON);
 		engine.put("_", new JSUtil(engine));
