@@ -20,9 +20,9 @@ public class HTTPProcessor {
 
 	}
 
-	public static void err(HTTPClient client, String message, String filePath, String[][] params) {
+	public static void err(HTTPClient client, String message, String filePath, String[][] params, String[] headers) {
 		client.writeResponse(
-				new HTTPResponse("HTTP/1.1 " + message, FileUtil.getFile(filePath, false, false, false).readAndEval(params)));
+				new HTTPResponse("HTTP/1.1 " + message, FileUtil.getFile(filePath, false, false, false).readAndEval(params, headers)));
 	}
 
 	public static void process(HTTPClient client) {
@@ -33,7 +33,7 @@ public class HTTPProcessor {
 			String[][] params = StringUtil.toParams(pathArr.length == 2 ? pathArr[1] : "");
 			if (request.getMethod().equals("GET") || request.getMethod().equals("POST")) {
 				if (!(path.startsWith("/") || path.startsWith("\\")) || path.contains("..")) {
-					err(client, "403 Forbidden", "error/403.html", params);
+					err(client, "403 Forbidden", "error/403.html", params, request.getHeaders());
 				} else {
 					if (request.valueContains("Connection", "Upgrade")) {
 						if (request.valueContains("Upgrade", "websocket")) {
@@ -48,15 +48,15 @@ public class HTTPProcessor {
 					} else {
 						try {
 							File file = FileUtil.getFile(path, true, true, false);
-							client.writeResponse(new HTTPResponse("HTTP/1.1 200 OK", file.readAndEval(params)));
+							client.writeResponse(new HTTPResponse("HTTP/1.1 200 OK", file.readAndEval(params, request.getHeaders())));
 						} catch (NullPointerException e) {
-							err(client, "404 Not Found", "error/404.html", params);
+							err(client, "404 Not Found", "error/404.html", params, request.getHeaders());
 						}
 					}
 				}
 			}
 		} catch (HTTPParseException e) {
-			err(client, "400 Bad Request", "error/400.html", new String[][] {});
+			err(client, "400 Bad Request", "error/400.html", new String[][] {}, new String[] {});
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -19,25 +19,25 @@ public class File {
 
 	public String[] read() {
 		try {
-	        FileReader fileReader = new FileReader(filePath);
-	        BufferedReader bufferedReader = new BufferedReader(fileReader);
-	        List<String> lines = new ArrayList<String>();
-	        String line = null;
-	        while ((line = bufferedReader.readLine()) != null)
-	            lines.add(line);
-	        bufferedReader.close();
-	        return lines.toArray(new String[lines.size()]);
-		} catch(IOException e) {
+			FileReader fileReader = new FileReader(filePath);
+			BufferedReader bufferedReader = new BufferedReader(fileReader);
+			List<String> lines = new ArrayList<String>();
+			String line = null;
+			while ((line = bufferedReader.readLine()) != null)
+				lines.add(line);
+			bufferedReader.close();
+			return lines.toArray(new String[lines.size()]);
+		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
-	
-	public String[] readAndEval(String[][] params) {
+
+	public String[] readAndEval(String[][] params, String[] headers) {
 		String[] text = read();
-		return JSCode.evalServerCode(text, params);
+		return JSCode.evalServerCode(text, params, headers);
 	}
-	
+
 	public void write(String[] text) {
 		try {
 			PrintWriter pw = new PrintWriter(filePath);

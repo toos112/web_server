@@ -15,7 +15,7 @@ public class JSCode {
 
 	}
 
-	public static final String[] evalServerCode(String[] stra, String[][] params) {
+	public static final String[] evalServerCode(String[] stra, String[][] params, String[] headers) {
 		ScriptEngineManager manager = new ScriptEngineManager();
 		ScriptEngine engine = manager.getEngineByName("JavaScript");
 

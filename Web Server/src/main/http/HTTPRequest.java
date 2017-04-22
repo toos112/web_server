@@ -2,6 +2,7 @@ package main.http;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 public class HTTPRequest {
 
@@ -44,5 +45,13 @@ public class HTTPRequest {
 	public String getMethod() {
 		String[] statusArr = status.split(" ");
 		return statusArr[0];
+	}
+
+	public String[] getHeaders() {
+		String[] result = new String[header.size()];
+		int i = 0;
+		for (Map.Entry<String, String> entry : header.entrySet())
+			result[i++] = entry.getKey() + ": " + entry.getValue();
+		return null;
 	}
 }
