@@ -15,7 +15,7 @@ public class JSCode {
 
 	}
 
-	public static final String[] evalServerCode(String[] stra, String[][] params, String[] headers) {
+	public static final String[] evalServerCode(String[] stra, String[][] params, JSClientInfo info) {
 		ScriptEngineManager manager = new ScriptEngineManager();
 		ScriptEngine engine = manager.getEngineByName("JavaScript");
 
@@ -30,6 +30,7 @@ public class JSCode {
 
 		engine.put("_qs", qsJSON);
 		engine.put("_", new JSUtil(engine));
+		engine.put("_ci", info);
 
 		String result = String.join("%n%", stra);
 		String[] code = StringUtil.getBetween("(js:", ":js)", result);

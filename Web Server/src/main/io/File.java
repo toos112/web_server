@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import main.util.js.JSClientInfo;
 import main.util.js.JSCode;
 
 public class File {
@@ -33,9 +34,9 @@ public class File {
 		}
 	}
 
-	public String[] readAndEval(String[][] params, String[] headers) {
+	public String[] readAndEval(String[][] params, JSClientInfo info) {
 		String[] text = read();
-		return JSCode.evalServerCode(text, params, headers);
+		return JSCode.evalServerCode(text, params, info);
 	}
 
 	public void write(String[] text) {

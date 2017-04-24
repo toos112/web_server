@@ -7,6 +7,7 @@ import main.http.HTTPParseException;
 import main.http.HTTPRequest;
 import main.http.HTTPResponse;
 import main.io.File;
+import main.util.js.JSClientInfo;
 import main.util.js.JSWebSocket;
 import main.util.js.ServerScriptManager;
 import main.util.js.event.JSWebSocketEvent;
@@ -20,12 +21,13 @@ public class HTTPProcessor {
 
 	}
 
-	public static void err(HTTPClient client, String message, String filePath, String[][] params, String[] headers) {
+	public static void err(HTTPClient client, String message, String filePath, String[][] params, JSClientInfo info) {
 		client.writeResponse(
-				new HTTPResponse("HTTP/1.1 " + message, FileUtil.getFile(filePath, false, false, false).readAndEval(params, headers)));
+				new HTTPResponse("HTTP/1.1 " + message, FileUtil.getFile(filePath, false, false, false).readAndEval(params, info)));
 	}
 
 	public static void process(HTTPClient client) {
+		JSClientInfo info = new JSClientInfo(client);
 		try {
 			HTTPRequest request = client.readRequest();
 			String[] pathArr = request.getPath().split("\\?");
@@ -33,7 +35,7 @@ public class HTTPProcessor {
 			String[][] params = StringUtil.toParams(pathArr.length == 2 ? pathArr[1] : "");
 			if (request.getMethod().equals("GET") || request.getMethod().equals("POST")) {
 				if (!(path.startsWith("/") || path.startsWith("\\")) || path.contains("..")) {
-					err(client, "403 Forbidden", "error/403.html", params, request.getHeaders());
+					err(client, "403 Forbidden", "error/403.html", params, info);
 				} else {
 					if (request.valueContains("Connection", "Upgrade")) {
 						if (request.valueContains("Upgrade", "websocket")) {
@@ -48,15 +50,15 @@ public class HTTPProcessor {
 					} else {
 						try {
 							File file = FileUtil.getFile(path, true, true, false);
-							client.writeResponse(new HTTPResponse("HTTP/1.1 200 OK", file.readAndEval(params, request.getHeaders())));
+							client.writeResponse(new HTTPResponse("HTTP/1.1 200 OK", file.readAndEval(params, info)));
 						} catch (NullPointerException e) {
-							err(client, "404 Not Found", "error/404.html", params, request.getHeaders());
+							err(client, "404 Not Found", "error/404.html", params, info);
 						}
 					}
 				}
 			}
 		} catch (HTTPParseException e) {
-			err(client, "400 Bad Request", "error/400.html", new String[][] {}, new String[] {});
+			err(client, "400 Bad Request", "error/400.html", new String[][] {}, info);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
