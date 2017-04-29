@@ -48,5 +48,9 @@ public class JSUtil {
 	public final boolean svr() {
 		return isServer;
 	}
+	
+	public final long getTime() {
+		return System.currentTimeMillis() / 1000L;
+	}
 
 }
