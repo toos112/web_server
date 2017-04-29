@@ -2,6 +2,7 @@ package main.util.js;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
@@ -50,7 +51,21 @@ public class JSUtil {
 	}
 	
 	public final long getTime() {
-		return System.currentTimeMillis() / 1000L;
+		return System.currentTimeMillis();
+	}
+	
+	public final void delay(long time, final Function<Object, Object> func) {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					Thread.sleep(time);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				JSCode.call(func, getTime());
+			}
+		}).start();
 	}
 
 }
