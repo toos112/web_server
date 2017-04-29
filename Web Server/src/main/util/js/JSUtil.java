@@ -67,5 +67,21 @@ public class JSUtil {
 			}
 		}).start();
 	}
+	
+	public final void loop(long time, final Function<Object, Object> func) {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				while (true) {
+					try {
+						Thread.sleep(time);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					JSCode.call(func, null);
+				}
+			}
+		}).start();
+	}
 
 }
