@@ -40,6 +40,7 @@ public class WebSocket {
 		}
 		response.addHeader("Sec-WebSocket-Protocol", protocol);
 		response.addHeader("Sec-WebSocket-Accept", key);
+		response.addHeader("Sec-WebSocket-Version", request.getValue("Sec-WebSocket-Version"));
 		response.addHeader("Upgrade", "websocket");
 		response.addHeader("Connection", "Upgrade");
 		client.writeResponse(response);

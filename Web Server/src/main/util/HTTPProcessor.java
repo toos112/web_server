@@ -38,7 +38,7 @@ public class HTTPProcessor {
 					err(client, "403 Forbidden", "error/403.html", params, info);
 				} else {
 					if (request.valueContains("Connection", "Upgrade")) {
-						if (request.valueContains("Upgrade", "websocket")) {
+						if (request.valueContains("Upgrade", "websocket") || request.valueContains("Upgrade", "Websocket")) {
 							String protocol = WebSocket.handshake(client, request);
 							WSClient wsClient = new WSClient(client.getSocket());
 							WSServer wsServer = new WSServer(wsClient, protocol);
