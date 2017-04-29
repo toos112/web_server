@@ -37,8 +37,12 @@ public class JSUtil {
 	}
 
 	public final String readf(String path) {
-		String[] file = FileUtil.getFile(path, false, false, false).read();
-		return String.join("\n", file);
+		try {
+			String[] file = FileUtil.getFile(path, false, false, false).read();
+			return String.join("\n", file);
+		} catch (NullPointerException e) {
+			return "";
+		}
 	}
 
 	public final void writef(String path, String text) {
