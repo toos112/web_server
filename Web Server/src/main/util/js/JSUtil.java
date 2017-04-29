@@ -63,7 +63,7 @@ public class JSUtil {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				JSCode.call(func, getTime());
+				JSCode.call(func, null);
 			}
 		}).start();
 	}
