@@ -30,9 +30,11 @@ public class WSClient {
 	
 	public void writeResponse(WSResponse response) {
 		try {
-			int[] bytes = response.getBytes();
-			for (int i = 0; i < bytes.length; i++)
-				os.write(bytes[i]);
+			int[] intBytes = response.getBytes();
+			byte[] bytes = new byte[intBytes.length];
+			for (int i = 0; i < intBytes.length; i++)
+				bytes[i] = (byte) intBytes[i];
+			os.write(bytes);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
