@@ -7,6 +7,7 @@ public class FileUtil {
 	
 	private static String[] indexFiles = new String[] { "index.html" };
 	
+	
 	private FileUtil() {
 		
 	}
@@ -38,6 +39,16 @@ public class FileUtil {
 				return null;
 			}
 		} else return null;
+	}
+	
+	public static final String getMimeType(String file) {
+		if (file.endsWith("css"))
+			return "text/css";
+		else if (file.endsWith("html"))
+			return "text/html";
+		else if (file.endsWith("js"))
+			return "text/javascript";
+		else return "text/plain";
 	}
 
 }

@@ -51,6 +51,7 @@ public class HTTPProcessor {
 						try {
 							File file = FileUtil.getFile(path, true, true, false);
 							HTTPResponse response = new HTTPResponse("HTTP/1.1 200 OK", file.readAndEval(params, info));
+							response.addHeader("Content-Type", FileUtil.getMimeType(path));
 							client.writeResponse(response);
 						} catch (NullPointerException e) {
 							err(client, "404 Not Found", "error/404.html", params, info);
