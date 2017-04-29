@@ -42,11 +42,11 @@ public class FileUtil {
 	}
 	
 	public static final String getMimeType(String file) {
-		if (file.endsWith("css"))
+		if (file.endsWith(".css"))
 			return "text/css";
-		else if (file.endsWith("html"))
+		else if (file.endsWith(".html"))
 			return "text/html";
-		else if (file.endsWith("js"))
+		else if (file.endsWith(".js"))
 			return "text/javascript";
 		else return "text/plain";
 	}

@@ -50,5 +50,9 @@ public class File {
 			return;
 		}
 	}
+	
+	public String getPath() {
+		return filePath;
+	}
 
 }
