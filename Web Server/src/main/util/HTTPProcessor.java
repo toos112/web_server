@@ -33,7 +33,7 @@ public class HTTPProcessor {
 			String[] pathArr = request.getPath().split("\\?");
 			String path = pathArr[0];
 			String[][] params = StringUtil.toParams(pathArr.length == 2 ? pathArr[1] : "");
-			if (request.getMethod().equals("GET") || request.getMethod().equals("POST")) {
+			if (request.getMethod().equals("GET")) {
 				if (!(path.startsWith("/") || path.startsWith("\\")) || path.contains("..")) {
 					err(client, "403 Forbidden", "error/403.html", params, info);
 				} else {
@@ -50,7 +50,10 @@ public class HTTPProcessor {
 					} else {
 						try {
 							File file = FileUtil.getFile(path, true, true, false);
-							client.writeResponse(new HTTPResponse("HTTP/1.1 200 OK", file.readAndEval(params, info)));
+							HTTPResponse response = new HTTPResponse("HTTP/1.1 200 OK", file.readAndEval(params, info));
+							if (request.getValue("Accept") != null)
+								response.addHeader("Accept", request.getValue("Accept").split(","));
+							client.writeResponse(response);
 						} catch (NullPointerException e) {
 							err(client, "404 Not Found", "error/404.html", params, info);
 						}
