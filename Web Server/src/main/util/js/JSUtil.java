@@ -28,7 +28,8 @@ public class JSUtil {
 	public final void I(String path) {
 		try {
 			if (!included.contains(path)) {
-				engine.eval(String.join("\n", FileUtil.getFile(path, false, false, false).read()));
+				String[] file = FileUtil.getFile(path, false, false, false).read();
+				engine.eval(String.join("\n", file));
 				included.add(path);
 			}
 		} catch (ScriptException e) {
