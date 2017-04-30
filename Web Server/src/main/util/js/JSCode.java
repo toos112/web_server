@@ -52,9 +52,7 @@ public class JSCode {
 
 	public static final String eval(ScriptEngine engine, String code) {
 		try {
-			engine.put("ret", "");
-			engine.eval(code);
-			Object val = engine.get("ret");
+			Object val = engine.eval(code);
 			if (val == null)
 				return "";
 			return val.toString();
@@ -70,9 +68,7 @@ public class JSCode {
 
 	public static final String eval(ScriptEngine engine, File file) {
 		try {
-			engine.put("ret", "");
-			engine.eval(String.join("\n", file.read()));
-			Object val = engine.get("ret");
+			Object val = engine.eval(String.join("\n", file.read()));
 			if (val == null)
 				return "";
 			return val.toString();
