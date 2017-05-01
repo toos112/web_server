@@ -21,6 +21,10 @@ public class JSWebSocket {
 	public final String getAddress() {
 		return server.getClient().getSocket().getInetAddress().toString();
 	}
+	
+	public final void close() {
+		server.stop();
+	}
 
 	public final void out(String text) {
 		server.send(text);

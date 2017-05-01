@@ -103,6 +103,13 @@ public class WSServer {
 		client.writeResponse(response);
 	}
 
+	public void stop() {
+		WSResponse response = new WSResponse(0x8);
+		JSWebSocketMirror.callEvent(jsWebSocket, "close", new JSWebSocketCloseEvent(jsWebSocket, true));
+		ServerScriptManager.instance.triggerEvent("ws.close", new JSWebSocketCloseEvent(jsWebSocket, true));
+		client.writeResponse(response);
+	}
+
 	public void start() {
 		running = true;
 		new Thread(new Runnable() {
