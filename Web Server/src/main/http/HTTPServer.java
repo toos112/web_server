@@ -5,7 +5,7 @@ import java.net.ServerSocket;
 
 import main.util.HTTPProcessor;
 
-public class HTTPServer {
+public class HTTPServer implements Runnable {
 
 	private ServerSocket server;
 	private boolean running = false;
@@ -34,5 +34,10 @@ public class HTTPServer {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	@Override
+	public void run() {
+		start();
 	}
 }

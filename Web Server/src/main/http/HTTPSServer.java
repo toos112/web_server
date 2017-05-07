@@ -8,7 +8,7 @@ import javax.net.ssl.SSLSocket;
 
 import main.util.HTTPProcessor;
 
-public class HTTPSServer {
+public class HTTPSServer implements Runnable {
 
 	private SSLServerSocket server;
 	private boolean running = false;
@@ -44,5 +44,10 @@ public class HTTPSServer {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	@Override
+	public void run() {
+		start();
 	}
 }
