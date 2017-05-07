@@ -9,17 +9,18 @@ import main.util.js.ServerScriptManager;
 public class Server {
 
 	public static void main(String[] args) {
-		int port = Integer.parseInt(args[0]);
+		int httpPort = Integer.parseInt(args[0]);
+		int httpsPort = Integer.parseInt(args[1]);
 
 		try {
-			HTTPServer http = new HTTPServer(port);
-			HTTPSServer https = new HTTPSServer(port);
+			HTTPServer http = new HTTPServer(httpPort);
+			HTTPSServer https = new HTTPSServer(httpsPort);
 			new Thread(ServerScriptManager.instance).run();
-			System.out.println("Created server on port: " + port);
+			System.out.println("Created server!");
 			http.start();
 			https.start();
 		} catch (IOException e) {
-			System.err.println("Failed to start server on port: " + port);
+			System.err.println("Failed to create server!");
 			e.printStackTrace();
 		}
 	}
