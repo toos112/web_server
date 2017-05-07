@@ -26,8 +26,21 @@ public class HTTPServer implements Runnable {
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
-						HTTPProcessor.process(client);
-						client.close();
+						HTTPRequest request;
+						try {
+							request = client.readRequest();
+							HTTPResponse response = new HTTPResponse("HTTP/1.1 301 Moved Permanently", new String[] {});
+							String host = request.getValue("Host");
+							if (host == null) {
+							} else if (host.startsWith("http://")) {
+								response.addHeader("Location", "https://" + host.substring(7, host.length()));
+							} else if (host.startsWith("ws://")) {
+								response.addHeader("Location", "wss://" + host.substring(5, host.length()));
+							} else response.addHeader("Location", host);
+							client.close();
+						} catch (HTTPParseException e) {
+							e.printStackTrace();
+						}
 					}
 				}).start();
 			} catch (IOException e) {
