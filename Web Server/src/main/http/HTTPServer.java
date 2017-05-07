@@ -36,6 +36,7 @@ public class HTTPServer implements Runnable {
 								response.addHeader("Location", "wss://" + host.substring(5, host.length()));
 							} else
 								response.addHeader("Location", host);
+							client.writeResponse(response);
 							client.close();
 						} catch (HTTPParseException e) {
 							e.printStackTrace();
