@@ -3,8 +3,6 @@ package main.http;
 import java.io.IOException;
 import java.net.ServerSocket;
 
-import main.util.HTTPProcessor;
-
 public class HTTPServer implements Runnable {
 
 	private ServerSocket server;
@@ -36,7 +34,8 @@ public class HTTPServer implements Runnable {
 								response.addHeader("Location", "https://" + host.substring(7, host.length()));
 							} else if (host.startsWith("ws://")) {
 								response.addHeader("Location", "wss://" + host.substring(5, host.length()));
-							} else response.addHeader("Location", host);
+							} else
+								response.addHeader("Location", host);
 							client.close();
 						} catch (HTTPParseException e) {
 							e.printStackTrace();
