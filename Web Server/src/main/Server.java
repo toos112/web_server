@@ -17,8 +17,8 @@ public class Server {
 			HTTPSServer https = new HTTPSServer(httpsPort);
 			new Thread(ServerScriptManager.instance).run();
 			System.out.println("Created server!");
-			new Thread(http).run();
-			new Thread(https).run();
+			new Thread(http).start();
+			new Thread(https).start();
 		} catch (IOException e) {
 			System.err.println("Failed to create server!");
 			e.printStackTrace();
