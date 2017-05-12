@@ -45,7 +45,10 @@ public class HTTPServer implements Runnable {
 							} catch (HTTPParseException e) {
 								e.printStackTrace();
 							}
-						} else HTTPProcessor.process(client);
+						} else {
+							HTTPProcessor.process(client);
+							client.close();
+						}
 					}
 				}).start();
 			} catch (IOException e) {
