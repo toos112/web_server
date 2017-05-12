@@ -9,16 +9,14 @@ import main.util.js.ServerScriptManager;
 public class Server {
 
 	public static void main(String[] args) {
-		int httpPort = Integer.parseInt(args[0]);
-		int httpsPort = Integer.parseInt(args[1]);
-
 		try {
+			int httpPort = Integer.parseInt(args[0]);
 			HTTPServer http = new HTTPServer(httpPort, args.length >= 2);
-
 			new Thread(ServerScriptManager.instance).run();
 			System.out.println("Created server!");
 			new Thread(http).start();
 			if (args.length >= 2) {
+				int httpsPort = Integer.parseInt(args[1]);
 				HTTPSServer https = new HTTPSServer(httpsPort);
 				new Thread(https).start();
 			}
