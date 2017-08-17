@@ -7,7 +7,6 @@ public class FileUtil {
 	
 	private static String[] indexFiles = new String[] { "index.html" };
 	
-	
 	private FileUtil() {
 		
 	}

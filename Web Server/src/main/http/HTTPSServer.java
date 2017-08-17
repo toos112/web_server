@@ -1,21 +1,36 @@
 package main.http;
 
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLServerSocketFactory;
 import javax.net.ssl.SSLSocket;
 
+import main.io.File;
 import main.util.HTTPProcessor;
 
 public class HTTPSServer implements Runnable {
 
 	private SSLServerSocket server;
 	private boolean running = false;
+	
+	private static void updatePassword() {
+		File file = new File("https/pass.txt");
+		String[] fileContents = file.read();
+		if (fileContents != null)
+			System.setProperty("javax.net.ssl.keyStorePassword", fileContents[0]);
+	}
 
 	static {
 		System.setProperty("javax.net.ssl.keyStore", "https/keystore.jks");
-		System.setProperty("javax.net.ssl.keyStorePassword", "kippendans666");
+		updatePassword();
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+			@Override
+			public void run() { updatePassword(); }
+		}, 0, 1000 * 10);
 	}
 
 	public HTTPSServer(int port) throws IOException {
