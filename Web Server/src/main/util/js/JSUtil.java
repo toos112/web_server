@@ -1,11 +1,16 @@
 package main.util.js;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+import javax.imageio.ImageIO;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
+import javax.xml.bind.DatatypeConverter;
 
 import main.util.FileUtil;
 
@@ -34,6 +39,18 @@ public class JSUtil {
 			}
 		} catch (ScriptException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	public final String img(String path) {
+		try {
+			BufferedImage image = ImageIO.read(new java.io.File(path));
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ImageIO.write(image, "png", baos);
+			String data = DatatypeConverter.printBase64Binary(baos.toByteArray());
+			return "data:image/png;base64," + data;
+		} catch (IOException e) {
+			return "";
 		}
 	}
 
