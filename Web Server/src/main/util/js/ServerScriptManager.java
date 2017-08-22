@@ -49,8 +49,10 @@ public class ServerScriptManager implements Runnable {
 	}
 
 	public void triggerEvent(String event, JSEvent params) {
+		System.out.println("test");
 		if (!eventMap.containsKey(event))
 			return;
+		System.out.println("test");
 		List<Function<Object, Object>> handlers = eventMap.get(event);
 		for (Function<Object, Object> handler : handlers)
 			JSCode.call(handler, params);
